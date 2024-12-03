@@ -8,16 +8,58 @@ import { useState } from "react";
 const Index = () => {
   const [selectedProvince, setSelectedProvince] = useState<string>("");
 
+  const getTelehealthLinks = (province: string) => {
+    switch (province) {
+      case "NS":
+        return {
+          maple: "https://www.getmaple.ca/nova-scotia-online-doctors/",
+          felix: "https://www.felixforyou.ca/",
+        };
+      default:
+        return {
+          maple: "https://www.getmaple.ca",
+          felix: "https://www.felixforyou.ca",
+        };
+    };
+  };
+
+  const getDoctorFinderLink = (province: string) => {
+    const links: Record<string, string> = {
+      BC: "https://www.healthlinkbc.ca/health-services/search-services-your-area",
+      ON: "https://doctors.cpso.on.ca/",
+      AB: "https://search.cpsa.ca/physiciansearch",
+      QC: "https://www.ramq.gouv.qc.ca/en/citizens/health-insurance/finding-doctor",
+      NS: "https://findaprimarycareprovider.novascotia.ca/",
+      NB: "https://www2.gnb.ca/content/gnb/en/departments/health/Hospital-Services/content/Patient_Connect_NB.html",
+      MB: "https://www.gov.mb.ca/health/familydoctorfinder/",
+      SK: "https://www.saskhealthauthority.ca/your-health/find-doctor",
+      PE: "https://www.princeedwardisland.ca/en/information/health-pei/patient-registry-program",
+      NL: "https://findadoctornl.ca/",
+      YT: "https://yukon.ca/en/health-and-wellness/care-services/find-family-doctor-or-specialist",
+      NT: "https://www.hss.gov.nt.ca/en/services/nwt-online-health-services",
+      NU: "https://www.gov.nu.ca/health/information/health-centres"
+    };
+    return links[province] || "https://www.canada.ca/en/health-canada/services/health-care-system/primary-health-care.html";
+  };
+
   const categories = [
     {
       icon: Video,
       title: "Telehealth",
       description: "Connect with healthcare providers virtually",
+      onClick: () => {
+        const links = getTelehealthLinks(selectedProvince);
+        window.open(links.maple, '_blank');
+        setTimeout(() => window.open(links.felix, '_blank'), 100);
+      }
     },
     {
       icon: Users,
       title: "Find Doctors",
       description: "Locate healthcare professionals near you",
+      onClick: () => {
+        window.open(getDoctorFinderLink(selectedProvince), '_blank');
+      }
     },
     {
       icon: Calendar,
