@@ -117,7 +117,7 @@ const Index = () => {
 
           <div className="max-w-md mx-auto mb-12">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Select your province or territory
+              Select your province or territory for more accurate results
             </label>
             <Select onValueChange={setSelectedProvince} value={selectedProvince}>
               <SelectTrigger className="w-full">
