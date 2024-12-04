@@ -37,12 +37,15 @@ const PrepareVisit = () => {
     // In a real app, this would be a real file URL
     const fileUrl = `/templates/${filename}`;
     
-    // Track download event
+    // Track download event with custom parameters
     ReactGA.event({
       category: "Downloads",
       action: "PDF Download",
       label: title,
-      location: userLocation || "Unknown"
+      // Using custom dimensions for additional data
+      customParameters: {
+        user_location: userLocation || "Unknown"
+      }
     });
 
     // For demo purposes, show a toast instead of actual download
