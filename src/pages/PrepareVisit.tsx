@@ -37,15 +37,18 @@ const PrepareVisit = () => {
     // In a real app, this would be a real file URL
     const fileUrl = `/templates/${filename}`;
     
-    // Track download event with custom parameters
+    // Track download event with GA4
     ReactGA.event({
       category: "Downloads",
       action: "PDF Download",
       label: title,
-      // Using custom dimensions for additional data
-      customParameters: {
-        user_location: userLocation || "Unknown"
-      }
+      value: 1,
+      nonInteraction: false,
+      items: [{
+        item_name: title,
+        item_category: "Templates",
+        item_variant: userLocation || "Unknown"
+      }]
     });
 
     // For demo purposes, show a toast instead of actual download
