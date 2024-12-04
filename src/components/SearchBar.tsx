@@ -27,7 +27,7 @@ const SearchBar = () => {
         />
       </div>
       <div className="mt-2 text-sm text-gray-600">
-        Try: "How do I prepare for my doctor's visit?"
+        Try: "How do i find a family doctor"
       </div>
     </form>
   );
