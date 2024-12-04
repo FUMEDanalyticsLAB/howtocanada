@@ -15,6 +15,11 @@ const CategoryGrid = ({ selectedProvince }: CategoryGridProps) => {
 
   const categories = [
     {
+      icon: Stethoscope,
+      title: "Symptoms",
+      description: "Check your symptoms and get guidance",
+    },
+    {
       icon: Calendar,
       title: "Appointments",
       description: "Book and manage your medical visits",
@@ -28,11 +33,6 @@ const CategoryGrid = ({ selectedProvince }: CategoryGridProps) => {
       icon: Heart,
       title: "Wellness",
       description: "Preventive care and healthy living",
-    },
-    {
-      icon: Stethoscope,
-      title: "Symptoms",
-      description: "Check your symptoms and get guidance",
     },
   ];
 
