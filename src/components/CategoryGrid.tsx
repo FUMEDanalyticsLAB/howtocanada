@@ -10,17 +10,10 @@ interface CategoryGridProps {
 
 const CategoryGrid = ({ selectedProvince }: CategoryGridProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDoctorOpen, setIsDoctorOpen] = useState(false);
   const telehealthLinks = getTelehealthLinks(selectedProvince);
 
   const categories = [
-    {
-      icon: Users,
-      title: "Find Doctors",
-      description: "Locate healthcare professionals near you",
-      onClick: () => {
-        window.open(getDoctorFinderLink(selectedProvince), '_blank');
-      }
-    },
     {
       icon: Calendar,
       title: "Appointments",
@@ -80,6 +73,56 @@ const CategoryGrid = ({ selectedProvince }: CategoryGridProps) => {
             <h4 className="font-semibold text-medical-blue">Felix</h4>
             <p className="text-sm text-gray-600">Online prescriptions and medication delivery. Specialized in lifestyle medications and ongoing care.</p>
           </div>
+        </CollapsibleContent>
+      </Collapsible>
+      <Collapsible open={isDoctorOpen} onOpenChange={setIsDoctorOpen} className="col-span-1">
+        <CollapsibleTrigger className="w-full">
+          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Users className="w-8 h-8 text-medical-blue mb-4" />
+              </div>
+              {isDoctorOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+            </div>
+            <h3 className="text-lg font-semibold mb-2">Find Doctors</h3>
+            <p className="text-gray-600 text-sm">Locate healthcare professionals near you</p>
+          </div>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-2 space-y-2">
+          <div 
+            onClick={() => window.open(getDoctorFinderLink(selectedProvince), '_blank')}
+            className="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition-shadow border border-gray-100"
+          >
+            <h4 className="font-semibold text-medical-blue">Find a Doctor</h4>
+            <p className="text-sm text-gray-600">Search for doctors accepting new patients in your area</p>
+          </div>
+          {selectedProvince === "BC" && (
+            <div 
+              onClick={() => window.open("https://www.healthmatchbc.org/", '_blank')}
+              className="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition-shadow border border-gray-100"
+            >
+              <h4 className="font-semibold text-medical-blue">Health Match BC</h4>
+              <p className="text-sm text-gray-600">Register to be matched with a family doctor in British Columbia</p>
+            </div>
+          )}
+          {selectedProvince === "ON" && (
+            <div 
+              onClick={() => window.open("https://www.health.gov.on.ca/en/ms/healthcareconnect/", '_blank')}
+              className="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition-shadow border border-gray-100"
+            >
+              <h4 className="font-semibold text-medical-blue">Health Care Connect</h4>
+              <p className="text-sm text-gray-600">Register to find a family doctor or nurse practitioner in Ontario</p>
+            </div>
+          )}
+          {selectedProvince === "NS" && (
+            <div 
+              onClick={() => window.open("https://needafamilypractice.nshealth.ca/", '_blank')}
+              className="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition-shadow border border-gray-100"
+            >
+              <h4 className="font-semibold text-medical-blue">Need a Family Practice</h4>
+              <p className="text-sm text-gray-600">Join the registry to find a family doctor or nurse practitioner in Nova Scotia</p>
+            </div>
+          )}
         </CollapsibleContent>
       </Collapsible>
       {categories.map((category) => (
