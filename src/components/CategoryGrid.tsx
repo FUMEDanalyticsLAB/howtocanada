@@ -11,14 +11,28 @@ interface CategoryGridProps {
 const CategoryGrid = ({ selectedProvince }: CategoryGridProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDoctorOpen, setIsDoctorOpen] = useState(false);
+  const [isSymptomOpen, setIsSymptomOpen] = useState(false);
   const telehealthLinks = getTelehealthLinks(selectedProvince);
 
-  const categories = [
-    {
-      icon: Stethoscope,
-      title: "Symptoms",
-      description: "Check your symptoms and get guidance",
+  const symptomResources = {
+    "Sore Throat": {
+      medpage: "https://www.medpage.com/resource-centers/sore-throat",
+      uptodate: "https://www.uptodate.com/contents/sore-throat-in-adults-beyond-the-basics",
+      mayo: "https://www.mayoclinic.org/diseases-conditions/sore-throat/symptoms-causes/syc-20351635"
     },
+    "Eye Pain": {
+      medpage: "https://www.medpage.com/ophthalmology",
+      uptodate: "https://www.uptodate.com/contents/eye-pain-beyond-the-basics",
+      mayo: "https://www.mayoclinic.org/symptoms/eye-pain/basics/definition/sym-20050744"
+    },
+    "Fever": {
+      medpage: "https://www.medpage.com/infectiousdisease/generalid",
+      uptodate: "https://www.uptodate.com/contents/fever-in-adults-beyond-the-basics",
+      mayo: "https://www.mayoclinic.org/diseases-conditions/fever/symptoms-causes/syc-20352759"
+    }
+  };
+
+  const categories = [
     {
       icon: Calendar,
       title: "Appointments",
@@ -45,6 +59,55 @@ const CategoryGrid = ({ selectedProvince }: CategoryGridProps) => {
           description={provinceSpecificInfo[selectedProvince].description}
         />
       )}
+      
+      <Collapsible open={isSymptomOpen} onOpenChange={setIsSymptomOpen} className="col-span-1">
+        <CollapsibleTrigger className="w-full">
+          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Stethoscope className="w-8 h-8 text-medical-blue mb-4" />
+              </div>
+              {isSymptomOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+            </div>
+            <h3 className="text-lg font-semibold mb-2">Symptoms</h3>
+            <p className="text-gray-600 text-sm">Check your symptoms and get guidance</p>
+          </div>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-2 space-y-2">
+          {Object.entries(symptomResources).map(([symptom, links]) => (
+            <div key={symptom} className="bg-white p-4 rounded-lg shadow border border-gray-100">
+              <h4 className="font-semibold text-medical-blue mb-2">{symptom}</h4>
+              <div className="space-y-2">
+                <a 
+                  href={links.medpage} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block text-sm text-blue-600 hover:underline"
+                >
+                  MedPage Today
+                </a>
+                <a 
+                  href={links.uptodate} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block text-sm text-blue-600 hover:underline"
+                >
+                  UpToDate Patient
+                </a>
+                <a 
+                  href={links.mayo} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="block text-sm text-blue-600 hover:underline"
+                >
+                  Mayo Clinic
+                </a>
+              </div>
+            </div>
+          ))}
+        </CollapsibleContent>
+      </Collapsible>
+
       <Collapsible open={isOpen} onOpenChange={setIsOpen} className="col-span-1">
         <CollapsibleTrigger className="w-full">
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100">
@@ -75,6 +138,7 @@ const CategoryGrid = ({ selectedProvince }: CategoryGridProps) => {
           </div>
         </CollapsibleContent>
       </Collapsible>
+
       <Collapsible open={isDoctorOpen} onOpenChange={setIsDoctorOpen} className="col-span-1">
         <CollapsibleTrigger className="w-full">
           <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100">
