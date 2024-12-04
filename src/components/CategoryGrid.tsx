@@ -1,23 +1,18 @@
-import { Stethoscope, Users, Video, Calendar, Phone, Heart } from "lucide-react";
+import { Stethoscope, Users, Video, Calendar, Phone, Heart, ChevronDown, ChevronUp } from "lucide-react";
 import CategoryCard from "@/components/CategoryCard";
 import { getTelehealthLinks, getDoctorFinderLink, provinceSpecificInfo } from "@/utils/provinceUtils";
+import { useState } from "react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface CategoryGridProps {
   selectedProvince: string;
 }
 
 const CategoryGrid = ({ selectedProvince }: CategoryGridProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const telehealthLinks = getTelehealthLinks(selectedProvince);
+
   const categories = [
-    {
-      icon: Video,
-      title: "Telehealth",
-      description: "Connect with healthcare providers virtually",
-      onClick: () => {
-        const links = getTelehealthLinks(selectedProvince);
-        window.open(links.maple, '_blank');
-        setTimeout(() => window.open(links.felix, '_blank'), 100);
-      }
-    },
     {
       icon: Users,
       title: "Find Doctors",
@@ -57,6 +52,36 @@ const CategoryGrid = ({ selectedProvince }: CategoryGridProps) => {
           description={provinceSpecificInfo[selectedProvince].description}
         />
       )}
+      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="col-span-1">
+        <CollapsibleTrigger className="w-full">
+          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-100">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Video className="w-8 h-8 text-medical-blue mb-4" />
+              </div>
+              {isOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+            </div>
+            <h3 className="text-lg font-semibold mb-2">Telehealth</h3>
+            <p className="text-gray-600 text-sm">Connect with healthcare providers virtually</p>
+          </div>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-2 space-y-2">
+          <div 
+            onClick={() => window.open(telehealthLinks.maple, '_blank')}
+            className="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition-shadow border border-gray-100"
+          >
+            <h4 className="font-semibold text-medical-blue">Maple</h4>
+            <p className="text-sm text-gray-600">Connect with Canadian doctors online 24/7. Get prescriptions, lab work, and specialist referrals.</p>
+          </div>
+          <div 
+            onClick={() => window.open(telehealthLinks.felix, '_blank')}
+            className="bg-white p-4 rounded-lg shadow cursor-pointer hover:shadow-md transition-shadow border border-gray-100"
+          >
+            <h4 className="font-semibold text-medical-blue">Felix</h4>
+            <p className="text-sm text-gray-600">Online prescriptions and medication delivery. Specialized in lifestyle medications and ongoing care.</p>
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
       {categories.map((category) => (
         <CategoryCard key={category.title} {...category} />
       ))}
