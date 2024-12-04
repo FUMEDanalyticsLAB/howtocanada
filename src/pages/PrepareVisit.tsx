@@ -42,13 +42,6 @@ const PrepareVisit = () => {
       category: "Downloads",
       action: "PDF Download",
       label: title,
-      value: 1,
-      nonInteraction: false,
-      items: [{
-        item_name: title,
-        item_category: "Templates",
-        item_variant: userLocation || "Unknown"
-      }]
     });
 
     // For demo purposes, show a toast instead of actual download
